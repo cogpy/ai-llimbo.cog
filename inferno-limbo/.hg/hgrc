@@ -1,0 +1,26 @@
+[ui]
+username = OpenCog Inferno Developer <dev@opencog-inferno.org>
+ignore = ~/.hgignore
+
+[extensions]
+color =
+pager =
+progress =
+rebase =
+
+[alias]
+log-graph = log --graph --template '{node|short} {desc|firstline}\n'
+st = status
+ci = commit
+co = checkout
+
+[paths]
+default = /n/remote/opencog-inferno
+
+[hooks]
+# Pre-commit hook to ensure code builds
+precommit.build = mk clean && mk all
+
+[merge-tools]
+vimdiff.executable = acme
+vimdiff.args = -d $local $other

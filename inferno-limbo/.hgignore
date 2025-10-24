@@ -1,0 +1,27 @@
+syntax: glob
+
+# Dis bytecode and debug symbols
+*.dis
+*.sbl
+
+# Build artifacts
+*.o
+*.a
+
+# Editor backup files
+*~
+*.swp
+*.bak
+
+# Temporary files
+/tmp/*
+*.tmp
+
+# Log files
+*.log
+
+# Mac OS
+.DS_Store
+
+# Windows
+Thumbs.db
