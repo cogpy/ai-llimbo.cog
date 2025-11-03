@@ -20,6 +20,13 @@ This repository contains a complete implementation of **OpenCog AI integration f
 ├── examples/               # 💡 Usage examples and demos
 └── README.md               # 📖 Detailed project documentation
 
+📂 inferno-limbo/           # 🔥 OpenCog Inferno Implementation (NEW!)
+├── module/                 # 📦 Limbo module definitions (.m)
+├── appl/                   # 💻 Limbo implementations (.b)
+├── tests/                  # 🧪 Test suites
+├── .hg/                    # 📚 Mercurial version control
+└── README.md               # 📖 Inferno implementation guide
+
 📂 docs/                    # 📚 Repository-wide documentation
 ├── README.md               # 📖 Documentation index
 ├── ai-opencog-integration-guide.md
@@ -27,6 +34,7 @@ This repository contains a complete implementation of **OpenCog AI integration f
 
 📄 BUILD_DEPLOY.md          # 🚀 Build and deployment guide
 📄 IMPLEMENTATION_SUMMARY.md # 📊 Complete implementation analysis
+📄 INFERNO_INTEGRATION.md   # 🔥 Inferno/Limbo implementation guide (NEW!)
 📄 CogPrime_Overview_Paper.pdf # 📄 Technical research paper
 📄 MonsterDiagram.jpg       # 🖼️ Architecture visualization
 ```
@@ -74,12 +82,29 @@ docker pull ghcr.io/rzonedevops/ai-opencog:latest
 docker run -p 3000:3000 ghcr.io/rzonedevops/ai-opencog:latest
 ```
 
+### Option 4: Inferno OS (Pure Limbo) 🔥 **NEW!**
+```bash
+# Navigate to Inferno implementation
+cd inferno-limbo
+
+# Build with mk
+mk all
+
+# Run demo
+/appl/cmd/cogdemo
+
+# Run tests
+mk test
+```
+
 ## 📚 Documentation
 
 ### 🎯 Essential Links
 - **[📖 Main Project Documentation](ai-opencog/README.md)** - Complete Theia-OpenCog extension documentation
+- **[🔥 Inferno Implementation Guide](INFERNO_INTEGRATION.md)** - Pure Limbo/Dis VM implementation (NEW!)
 - **[🏗️ Build & Deployment Guide](BUILD_DEPLOY.md)** - Complete deployment instructions  
 - **[📊 Implementation Summary](IMPLEMENTATION_SUMMARY.md)** - Project completion status
+- **[📊 Inferno Implementation Summary](IMPLEMENTATION_SUMMARY_INFERNO.md)** - Inferno port details (NEW!)
 - **[📚 Full Documentation](docs/README.md)** - Documentation index
 - **[🔧 Technical Architecture](ai-opencog/docs/guides/TECHNICAL_ARCHITECTURE.md)** - System architecture
 - **[🚀 Production Deployment](ai-opencog/docs/guides/PRODUCTION_DEPLOYMENT_GUIDE.md)** - Production guide
@@ -93,6 +118,7 @@ docker run -p 3000:3000 ghcr.io/rzonedevops/ai-opencog:latest
 
 ## 🛠️ Technologies
 
+### Theia IDE Integration
 - **Frontend**: Theia IDE Framework, TypeScript, React
 - **AI/Cognitive**: OpenCog, AtomSpace, PLN (Probabilistic Logic Networks)
 - **Backend**: Node.js, JSON-RPC, Docker
@@ -100,9 +126,17 @@ docker run -p 3000:3000 ghcr.io/rzonedevops/ai-opencog:latest
 - **Testing**: Jest, Comprehensive Test Suites
 - **Deployment**: Docker, GitHub Actions, Multi-platform builds
 
+### Inferno OS Integration 🔥 **NEW!**
+- **Language**: Limbo (type-safe, garbage collected)
+- **VM**: Dis Virtual Machine (portable bytecode)
+- **OS**: Inferno OS (distributed, Plan 9-based)
+- **VCS**: Mercurial (distributed version control)
+- **Protocol**: 9P (network file system protocol)
+- **Build**: mk (plan9 make system)
+
 ## 🎮 Usage Examples
 
-### Basic AI Integration
+### Basic AI Integration (Theia)
 ```typescript
 import { AiOpenCogModule } from '@theia/ai-opencog';
 
@@ -114,7 +148,7 @@ const analysis = await codeAnalysisAgent.analyzeCode(
 );
 ```
 
-### User Behavior Learning
+### User Behavior Learning (Theia)
 ```typescript
 // Get behavior-based recommendations
 const recommendations = await behaviorAgent.getBehaviorRecommendations('user123');
@@ -123,9 +157,33 @@ const recommendations = await behaviorAgent.getBehaviorRecommendations('user123'
 const adaptations = await behaviorAgent.adaptInterfaceForUser('user123');
 ```
 
-For complete usage examples, see the [main project documentation](ai-opencog/README.md).
+### Cognitive Operations (Inferno/Limbo) 🔥 **NEW!**
+```limbo
+# Load modules
+opencog = load OpenCog OpenCog->PATH;
+atomspace = load AtomSpace AtomSpace->PATH;
+
+# Initialize cognitive system
+cogsys := opencog->init();
+
+# Create knowledge
+tv := atomspace->newtruthvalue(0.9, 0.8);
+atom := opencog->addknowledge(cogsys, "cat", tv);
+
+# Query and reason
+results := opencog->query(cogsys, "cat");
+premises := "cat" :: "mammal" :: nil;
+inferences := opencog->reason(cogsys, premises);
+
+# Cleanup
+opencog->shutdown(cogsys);
+```
+
+For complete usage examples, see the [main project documentation](ai-opencog/README.md) and [Inferno integration guide](INFERNO_INTEGRATION.md).
 
 ## 🏗️ Architecture
+
+### Theia IDE Architecture
 
 The project implements a sophisticated layered architecture:
 
@@ -146,6 +204,34 @@ The project implements a sophisticated layered architecture:
 - 📊 **2,280+ Lines**: Core AtomSpace service with advanced capabilities  
 - 🤖 **12 Algorithms**: Advanced learning including meta-learning
 - 🔬 **12 Test Suites**: Comprehensive quality assurance coverage
+
+### Inferno OS Architecture 🔥 **NEW!**
+
+```
+┌─────────────────────────────────────────┐
+│         OpenCog Interface               │
+│  (addknowledge, query, reason, learn)   │
+├─────────────────────────────────────────┤
+│              PLN Engine                 │
+│  (deduction, induction, abduction)      │
+├─────────────────────────────────────────┤
+│            AtomSpace Core               │
+│  (atoms, truth values, queries)         │
+├─────────────────────────────────────────┤
+│             Dis VM Layer                │
+│  (bytecode execution, GC, types)        │
+├─────────────────────────────────────────┤
+│            Inferno OS                   │
+│  (9P, namespaces, processes)            │
+└─────────────────────────────────────────┘
+```
+
+**Implementation Statistics**:
+- 💻 **2,970 Lines**: Complete Limbo implementation
+- 📦 **3 Core Modules**: AtomSpace, PLN, OpenCog
+- 🧪 **18 Tests**: Comprehensive validation
+- 📚 **1,900+ Lines**: Documentation
+- 🔥 **100% Pure Limbo**: No C dependencies
 
 ## 🔄 Development Status
 

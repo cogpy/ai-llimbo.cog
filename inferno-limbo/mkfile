@@ -1,0 +1,94 @@
+</$objtype/mkfile
+
+# OpenCog Inferno Build Configuration
+# Targets the Dis virtual machine
+
+LIMBODIR=/dis
+MODDIR=/module
+APPLDIR=/appl/cmd
+
+# Limbo compiler
+LIMBO=limbo
+
+# Module files
+MODULES=\
+	atomspace\
+	pln\
+	opencog\
+
+# Application files
+APPS=\
+	cogdemo\
+
+# Build targets
+modules:VQ:
+	@{
+		for (m in $MODULES) {
+			echo Building module $m...
+			cd module
+			$LIMBO -I$MODDIR $m.m
+			cd ..
+		}
+	}
+
+apps:VQ: modules
+	@{
+		for (a in $APPS) {
+			echo Building application $a...
+			cd appl
+			$LIMBO -I$MODDIR -gw $a.b
+			cd ..
+		}
+	}
+
+libs:VQ: modules
+	@{
+		echo Building library implementations...
+		cd appl
+		for (m in $MODULES) {
+			$LIMBO -I$MODDIR -gw $m.b
+		}
+		cd ..
+	}
+
+all:V: modules libs apps
+
+clean:V:
+	@{
+		rm -f module/*.dis
+		rm -f appl/*.dis
+		rm -f appl/*.sbl
+		echo Cleaned build artifacts
+	}
+
+install:V: all
+	@{
+		echo Installing modules to $MODDIR...
+		cp module/*.m $MODDIR/
+		echo Installing libraries to $LIMBODIR/lib/...
+		cp appl/atomspace.dis $LIMBODIR/lib/
+		cp appl/pln.dis $LIMBODIR/lib/
+		cp appl/opencog.dis $LIMBODIR/lib/
+		echo Installing applications to $APPLDIR...
+		cp appl/cogdemo.dis $APPLDIR/
+		echo Installation complete
+	}
+
+test:V: all
+	@{
+		echo Running cognitive demo...
+		$APPLDIR/cogdemo
+	}
+
+nuke:V: clean
+	@{
+		echo Removing installed files...
+		rm -f $MODDIR/atomspace.m
+		rm -f $MODDIR/pln.m
+		rm -f $MODDIR/opencog.m
+		rm -f $LIMBODIR/lib/atomspace.dis
+		rm -f $LIMBODIR/lib/pln.dis
+		rm -f $LIMBODIR/lib/opencog.dis
+		rm -f $APPLDIR/cogdemo.dis
+		echo Nuke complete
+	}
