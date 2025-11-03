@@ -15,10 +15,18 @@ MODULES=\
 	atomspace\
 	pln\
 	opencog\
+	atomtypes\
 
 # Application files
 APPS=\
 	cogdemo\
+
+# Test files
+TESTS=\
+	atomtest\
+	plntest\
+	hashtest\
+	extplntest\
 
 # Build targets
 modules:VQ:
@@ -51,13 +59,25 @@ libs:VQ: modules
 		cd ..
 	}
 
-all:V: modules libs apps
+tests:VQ: libs
+	@{
+		echo Building tests...
+		cd tests
+		for (t in $TESTS) {
+			$LIMBO -I$MODDIR -gw $t.b
+		}
+		cd ..
+	}
+
+all:V: modules libs apps tests
 
 clean:V:
 	@{
 		rm -f module/*.dis
 		rm -f appl/*.dis
 		rm -f appl/*.sbl
+		rm -f tests/*.dis
+		rm -f tests/*.sbl
 		echo Cleaned build artifacts
 	}
 
@@ -69,15 +89,29 @@ install:V: all
 		cp appl/atomspace.dis $LIMBODIR/lib/
 		cp appl/pln.dis $LIMBODIR/lib/
 		cp appl/opencog.dis $LIMBODIR/lib/
+		cp appl/atomtypes.dis $LIMBODIR/lib/
 		echo Installing applications to $APPLDIR...
 		cp appl/cogdemo.dis $APPLDIR/
 		echo Installation complete
 	}
 
-test:V: all
+test:V: tests
 	@{
-		echo Running cognitive demo...
-		$APPLDIR/cogdemo
+		echo Running tests...
+		echo
+		echo "=== AtomSpace Tests ==="
+		tests/atomtest.dis
+		echo
+		echo "=== PLN Tests ==="
+		tests/plntest.dis
+		echo
+		echo "=== Hash Indexing Tests ==="
+		tests/hashtest.dis
+		echo
+		echo "=== Extended PLN Tests ==="
+		tests/extplntest.dis
+		echo
+		echo All tests completed!
 	}
 
 nuke:V: clean
@@ -86,9 +120,11 @@ nuke:V: clean
 		rm -f $MODDIR/atomspace.m
 		rm -f $MODDIR/pln.m
 		rm -f $MODDIR/opencog.m
+		rm -f $MODDIR/atomtypes.m
 		rm -f $LIMBODIR/lib/atomspace.dis
 		rm -f $LIMBODIR/lib/pln.dis
 		rm -f $LIMBODIR/lib/opencog.dis
+		rm -f $LIMBODIR/lib/atomtypes.dis
 		rm -f $APPLDIR/cogdemo.dis
 		echo Nuke complete
 	}

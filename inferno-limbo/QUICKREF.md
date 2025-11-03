@@ -22,6 +22,8 @@ include "atomspace.m";
     atomspace: AtomSpace;
 include "pln.m";
     pln: PLN;
+include "atomtypes.m";
+    atomtypes: AtomTypes;
 ```
 
 ## Common Operations

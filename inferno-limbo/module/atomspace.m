@@ -16,10 +16,21 @@ AtomSpace: module
 		confidence: real;
 	};
 
-	# AtomSpace handle
+	# Hash bucket for indexed lookups
+	HashBucket: adt {
+		id: int;
+		atom: ref Atom;
+		next: ref HashBucket;
+	};
+
+	# AtomSpace handle with hash indexing
 	Handle: adt {
 		atoms: list of ref Atom;
 		nextid: int;
+		idindex: array of ref HashBucket;    # Hash table for ID lookups
+		nameindex: array of ref HashBucket;  # Hash table for name lookups
+		typeindex: array of ref HashBucket;  # Hash table for type lookups
+		indexsize: int;
 	};
 
 	# Core AtomSpace operations
@@ -36,4 +47,8 @@ AtomSpace: module
 	# Query operations
 	findatomsbytype: fn(h: ref Handle, atype: int): list of ref Atom;
 	findatomsbyname: fn(h: ref Handle, name: string): list of ref Atom;
+	
+	# Hash functions
+	hashint: fn(val: int, size: int): int;
+	hashstring: fn(str: string, size: int): int;
 };

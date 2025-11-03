@@ -31,4 +31,8 @@ PLN: module
 	# Revision and combination
 	revision: fn(a: ref AtomSpace->Atom, b: ref AtomSpace->Atom): ref AtomSpace->TruthValue;
 	conjunction: fn(a: ref AtomSpace->Atom, b: ref AtomSpace->Atom): ref AtomSpace->TruthValue;
+	disjunction: fn(a: ref AtomSpace->Atom, b: ref AtomSpace->Atom): ref AtomSpace->TruthValue;
+	negation: fn(a: ref AtomSpace->Atom): ref AtomSpace->TruthValue;
+	similarity: fn(a: ref AtomSpace->Atom, b: ref AtomSpace->Atom): ref AtomSpace->TruthValue;
+	implication: fn(a: ref AtomSpace->Atom, b: ref AtomSpace->Atom): ref AtomSpace->TruthValue;
 };

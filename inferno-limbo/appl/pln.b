@@ -163,3 +163,66 @@ conjunction(a: ref AtomSpace->Atom, b: ref AtomSpace->Atom): ref AtomSpace->Trut
 	
 	return atomspace->newtruthvalue(s, c);
 }
+
+# Disjunction: OR operation on truth values
+disjunction(a: ref AtomSpace->Atom, b: ref AtomSpace->Atom): ref AtomSpace->TruthValue
+{
+	sa := a.tv.strength;
+	ca := a.tv.confidence;
+	sb := b.tv.strength;
+	cb := b.tv.confidence;
+	
+	# Disjunction formula: s = sa + sb - sa*sb
+	s := sa + sb - sa * sb;
+	c := ca * cb;
+	
+	return atomspace->newtruthvalue(s, c);
+}
+
+# Negation: NOT operation on truth value
+negation(a: ref AtomSpace->Atom): ref AtomSpace->TruthValue
+{
+	sa := a.tv.strength;
+	ca := a.tv.confidence;
+	
+	# Negation formula: s = 1 - sa
+	s := 1.0 - sa;
+	c := ca;
+	
+	return atomspace->newtruthvalue(s, c);
+}
+
+# Similarity: Measure of similarity between two atoms
+similarity(a: ref AtomSpace->Atom, b: ref AtomSpace->Atom): ref AtomSpace->TruthValue
+{
+	sa := a.tv.strength;
+	ca := a.tv.confidence;
+	sb := b.tv.strength;
+	cb := b.tv.confidence;
+	
+	# Similarity based on strength difference
+	diff := sa - sb;
+	if (diff < 0.0)
+		diff = -diff;
+	s := 1.0 - diff;
+	c := (ca + cb) / 2.0;
+	
+	return atomspace->newtruthvalue(s, c);
+}
+
+# Implication: If A then B strength
+implication(a: ref AtomSpace->Atom, b: ref AtomSpace->Atom): ref AtomSpace->TruthValue
+{
+	sa := a.tv.strength;
+	ca := a.tv.confidence;
+	sb := b.tv.strength;
+	cb := b.tv.confidence;
+	
+	# Implication formula: strength weighted by antecedent
+	s := sb / (sa + 0.0001);  # Avoid division by zero
+	if (s > 1.0)
+		s = 1.0;
+	c := ca * cb * sa;
+	
+	return atomspace->newtruthvalue(s, c);
+}
